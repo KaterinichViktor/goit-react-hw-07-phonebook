@@ -1,20 +1,18 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-// Define the initial state for contacts
 const initialState = {
   data: [],
   loading: false,
   error: null,
+  filter: '', // Add filter to the initial state
 };
 
-// Define an async thunk to fetch contacts from the backend
 export const fetchContacts = createAsyncThunk('contacts/fetch', async () => {
   const response = await fetch('https://653f88eb9e8bd3be29e0c133.mockapi.io/contacts');
   const data = await response.json();
   return data;
 });
 
-// Create a contacts slice
 const contactsSlice = createSlice({
   name: 'contacts',
   initialState,
@@ -46,12 +44,8 @@ const contactsSlice = createSlice({
   },
 });
 
-// Export the actions and selectors
 export const { addContact, deleteContact, updateFilter } = contactsSlice.actions;
-
 export const selectContacts = (state) => state.contacts.data;
 export const selectFilter = (state) => state.contacts.filter;
-
-// You can add more selectors as needed.
 
 export default contactsSlice.reducer;

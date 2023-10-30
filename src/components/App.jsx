@@ -6,8 +6,8 @@ import Filter from './Filter';
 import ContactList from './ContactList';
 
 function App() {
-  const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
+  const contacts = useSelector(selectContacts);
 
   useEffect(() => {
     dispatch(fetchContacts());
