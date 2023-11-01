@@ -14,7 +14,15 @@ function App() {
   }, [dispatch]);
 
   return (
-    <div>
+    <div
+      style={{
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        fontSize: 24,
+      }}
+    >
       <h1>Phonebook</h1>
       <ContactForm />
       <h2>Contacts</h2>
