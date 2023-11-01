@@ -1,13 +1,13 @@
+// App.jsx
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchContacts, selectContacts } from '../Redux/contactsSlice';
+import { useDispatch } from 'react-redux';
+import { fetchContacts } from '../Redux/contactsSlice';
 import ContactForm from './ContactForm';
 import Filter from './Filter';
 import ContactList from './ContactList';
 
 function App() {
   const dispatch = useDispatch();
-  const contacts = useSelector(selectContacts);
 
   useEffect(() => {
     dispatch(fetchContacts());
@@ -19,7 +19,7 @@ function App() {
       <ContactForm />
       <h2>Contacts</h2>
       <Filter />
-      <ContactList contacts={contacts} />
+      <ContactList />
     </div>
   );
 }

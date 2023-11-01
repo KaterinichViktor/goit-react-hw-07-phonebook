@@ -4,7 +4,7 @@ const initialState = {
   data: [],
   loading: false,
   error: null,
-  filter: '', // Add filter to the initial state
+  filter: '', 
 };
 
 export const fetchContacts = createAsyncThunk('contacts/fetch', async () => {

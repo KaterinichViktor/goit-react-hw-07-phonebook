@@ -1,22 +1,32 @@
+// src/components/ContactList.jsx
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteContact, selectFilter } from '../Redux/contactsSlice'; // Import selectContacts and selectFilter
+import { deleteContact, selectContacts } from '../Redux/contactsSlice'; 
 
 const ContactList = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts.data);
-  const filter = useSelector(selectFilter);
+  const contacts = useSelector(selectContacts);
 
-  const filteredContacts = contacts.filter((contact) =>
-    contact.name.toLowerCase().includes(filter.toLowerCase())
-  );
+  const handleDeleteContact = (id) => {
+    // Видалення контакту на сервері
+    fetch(`https://653f88eb9e8bd3be29e0c133.mockapi.io/contacts/${id}`, {
+      method: 'DELETE',
+    })
+      .then(() => {
+        // Після успішного видалення на сервері видаляємо його на сайті
+        dispatch(deleteContact(id));
+      })
+      .catch((error) => {
+        console.error('Помилка під час видалення з сервера:', error);
+      });
+  };
 
   return (
     <ul>
-      {filteredContacts.map((contact) => (
+      {contacts.map((contact) => (
         <li key={contact.id}>
           {contact.name}: {contact.number}
-          <button onClick={() => dispatch(deleteContact(contact.id))}>Delete</button>
+          <button onClick={() => handleDeleteContact(contact.id)}>Delete</button>
         </li>
       ))}
     </ul>
