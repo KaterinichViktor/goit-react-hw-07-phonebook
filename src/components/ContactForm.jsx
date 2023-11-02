@@ -1,12 +1,16 @@
-// src/components/ContactForm.jsx
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { addContact } from '../Redux/contactsSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact, selectContacts } from '../Redux/contactsSlice';
 
 const ContactForm = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const dispatch = useDispatch();
+  const contacts = useSelector(selectContacts);
+
+  const isNameUnique = () => {
+    return !contacts.some((contact) => contact.name === name);
+  };
 
   const handleAddContact = () => {
     if (name === '' || number === '') {
@@ -14,13 +18,16 @@ const ContactForm = () => {
       return;
     }
 
-    // Об'єкт, який буде відправлений на сервер
+    if (!isNameUnique()) {
+      alert("Це ім'я вже існує. Виберіть інше ім'я.");
+      return;
+    }
+
     const newContact = {
       name,
       number,
     };
 
-    // Відправка нового контакту на сервер методом POST
     fetch('https://653f88eb9e8bd3be29e0c133.mockapi.io/contacts', {
       method: 'POST',
       headers: {
@@ -30,9 +37,7 @@ const ContactForm = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // Після успішного додавання на сервер отримуємо новий контакт з ID
         dispatch(addContact(data));
-        // Очищення полів форми
         setName('');
         setNumber('');
       })
